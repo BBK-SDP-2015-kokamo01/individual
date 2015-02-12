@@ -24,10 +24,10 @@ public class AddInstruction extends Instruction {
 	}
 
 	@Override
-	public void execute(Machine m) {
-		int value1 = m.getRegisters().getRegister(op1);
-		int value2 = m.getRegisters().getRegister(op2);
-		m.getRegisters().setRegister(result, value1 + value2);
+	public void execute(Machine machine) {
+		int value1 = machine.getRegisters().getRegister(op1);
+		int value2 = machine.getRegisters().getRegister(op2);
+		machine.getRegisters().setRegister(result, value1 + value2);
 	}
 
 	@Override

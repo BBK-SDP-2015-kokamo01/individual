@@ -28,11 +28,11 @@ public class Registers {
 		}
 	}
 
-	// Set register i to v.
+	// Set register i to value.
 	// Precondition: 0 <= i <= NUMBEROFREGISTERS
 
-	public void setRegister(int i, int v) {
-		registers[i] = v;
+	public void setRegister(int i, int value) {
+		registers[i] = value;
 	}
 
 	public int getRegister(int i) {
