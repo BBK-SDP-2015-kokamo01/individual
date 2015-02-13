@@ -1,6 +1,5 @@
-f0 lin 20 2
-f1 lin 21 6
-f2 mul 20 20 21
-f2 add 20 20 21
+f0 lin 20 50
+f1 lin 21 1
+f2 sub 20 20 21
 f3 out 20
 
