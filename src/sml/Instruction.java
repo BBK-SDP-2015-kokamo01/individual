@@ -6,6 +6,7 @@ package sml;
  * @author someone
  */
 
+
 public abstract class Instruction {
 	protected String label;
 	protected String opcode;
@@ -13,8 +14,8 @@ public abstract class Instruction {
 	// Constructor: an instruction with label l and opcode op
 	// (op must be an operation of the language)
 
-	public Instruction(String lable, String opcode) {
-		this.label = lable;
+	public Instruction(String label, String opcode) {
+		this.label = label;
 		this.opcode = opcode;
 	}
 
@@ -26,6 +27,5 @@ public abstract class Instruction {
 	}
 
 	// Execute this instruction on machine m.
-
 	public abstract void execute(Machine machine);
 }

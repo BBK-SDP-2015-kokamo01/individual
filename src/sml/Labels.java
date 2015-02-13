@@ -19,7 +19,7 @@ public class Labels {
 
 	public int addLabel(String lab) {
 		labels.add(lab);
-		return labels.size() - 1;
+        return labels.size() - 1;
 	}
 
 	// = the number of label lab in the list

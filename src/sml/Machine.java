@@ -33,9 +33,10 @@ public class Machine {
 
 		Machine machine = new Machine();
 		Translator translator = new Translator(args[0]);
-		translator.readAndTranslate(machine.getLabels(), machine.getProg());
+        translator.readAndTranslate(machine.getLabels(), machine.getProg());
+        //System.out.println("Machine get program " + machine.getProg());
 
-		System.out.println("Here is the program; it has " + machine.getProg().size() + " instructions.");
+        System.out.println("Here is the program; it has " + machine.getProg().size() + " instructions.");
 		System.out.println(machine);
 
 		System.out.println("Beginning program execution.");
@@ -51,14 +52,14 @@ public class Machine {
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
 		for (int i = 0; i != getProg().size(); i++)
-			stringBuffer.append(getProg().get(i) + "\n");
-		return stringBuffer.toString();
+            stringBuffer.append(getProg().get(i) + "\n");
+        return stringBuffer.toString();
 	}
 
 	// Execute the program in prog, beginning at instruction 0.
 	// Precondition: the program and its labels have been store properly.
 	public void execute() {
-		this.setProgramCounter(0);
+        this.setProgramCounter(0);
 		setRegisters(new Registers());
 		while (this.getProgramCounter() < getProg().size()) {
 			Instruction ins = getProg().get(this.getProgramCounter());
