@@ -96,7 +96,13 @@ public class Translator {
         case "out":
             register = scanInt();
             return new OutInstruction(label, register);
+        case "mul":
+            register = scanInt();
+            s1 = scanInt();
+            s2 = scanInt();
+            return new MultiplyInstruction(label, register, s1, s2);
         }
+
 
 		// You will have to write code here for the other instructions.
 
