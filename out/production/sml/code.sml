@@ -1,5 +1,5 @@
-f0 lin 20 50
-f1 lin 21 1
-f2 sub 20 20 21
+f0 lin 20 52
+f1 lin 21 2
+f2 div 20 20 21
 f3 out 20
 

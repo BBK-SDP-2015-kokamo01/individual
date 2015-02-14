@@ -105,7 +105,12 @@ public class Translator {
             register = scanInt();
             s1 = scanInt();
             s2 = scanInt();
-            return  new SubtractInstruction(label, register, s1, s2);
+            return new SubtractInstruction(label, register, s1, s2);
+        case "div":
+            register = scanInt();
+            s1 = scanInt();
+            s2 = scanInt();
+            return new DivideInstruction(label, register, s1, s2);
         }
 
 
