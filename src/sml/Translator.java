@@ -123,6 +123,8 @@ public class Translator {
                 e.printStackTrace();
             }
             */
+
+
         switch (ins) {
              case "add":
                  register = scanInt();
@@ -155,7 +157,6 @@ public class Translator {
                  register = scanInt();
                  String jumpLabel = scan();
                  return new BnzInstruction(label, register, jumpLabel);
-
              }
 
             // You will have to write code here for the other instructions.

@@ -15,7 +15,8 @@ public class OutInstruction extends Instruction {
 
     @Override
     public void execute(Machine machine) {
-        machine.getRegisters().getRegister(result);
+        int output = machine.getRegisters().getRegister(result);
+        System.out.println("output is: " + output);
     }
 
     @Override
