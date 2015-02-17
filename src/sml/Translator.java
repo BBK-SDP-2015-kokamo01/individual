@@ -2,6 +2,8 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -83,57 +85,81 @@ public class Translator {
         if (line.equals(""))
             return null;
 
+        String ins = scan();
+        /**
         //Reflection used here to determine the class name and matching it with
         //the instruction code, according to the instruction code the appropriate
         //class will be accessed.
 
         String ins = scan();
-        String instructionName = ins.substring(0, 1).toUpperCase()+ins.substring(1);
+        String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
+        System.out.println("ins: " +
+                "" + ins);
+        register = scanInt();
+        s1 = scanInt();
+        s2 = scanInt();
+        System.out.println("WHATS INSIDE: " + register + " " + s1 + " " + s2);
+        try {
+            Class<?> c = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
+            Constructor[] allConstructors = c.getDeclaredConstructors();
+            for (Constructor a : allConstructors) {
+                Class<?>[] pType = a.getParameterTypes();
 
-        if (ins != "Lin" && ins != "Out") {
-            try {
-
-                Class<?> c = Class.forName(this.getClass().getPackage().getName() + "." + instructionName + "Instruction");
-
+                if (pType.length == 4){
+                    return(Instruction)a.newInstance(label, register, s1, s2);
+                }
+                else if (pType.length == 3) {
+                    return (Instruction) a.newInstance(label, s1, s2);
+                }
+            }
 
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-
-            /**
-             switch (ins) {
+            */
+        switch (ins) {
              case "add":
-             register = scanInt();
-             s1 = scanInt();
-             s2 = scanInt();
-             return new AddInstruction(label, register, s1, s2);
+                 register = scanInt();
+                 s1 = scanInt();
+                 s2 = scanInt();
+                 return new AddInstruction(label, register, s1, s2);
              case "lin":
-             register = scanInt();
-             s1 = scanInt();
-             return new LinInstruction(label, register, s1);
+                register = scanInt();
+                s1 = scanInt();
+                return new LinInstruction(label, register, s1);
              case "out":
-             register = scanInt();
-             return new OutInstruction(label, register);
+                register = scanInt();
+                return new OutInstruction(label, register);
              case "mul":
-             register = scanInt();
-             s1 = scanInt();
-             s2 = scanInt();
-             return new MultiplyInstruction(label, register, s1, s2);
+                register = scanInt();
+                s1 = scanInt();
+                s2 = scanInt();
+                return new MulInstruction(label, register, s1, s2);
              case "sub":
-             register = scanInt();
-             s1 = scanInt();
-             s2 = scanInt();
-             return new SubtractInstruction(label, register, s1, s2);
+                register = scanInt();
+                s1 = scanInt();
+                s2 = scanInt();
+                return new SubInstruction(label, register, s1, s2);
              case "div":
-             register = scanInt();
-             s1 = scanInt();
-             s2 = scanInt();
-             return new DivideInstruction(label, register, s1, s2);
-             }*/
+                register = scanInt();
+                s1 = scanInt();
+                s2 = scanInt();
+                return new DivInstruction(label, register, s1, s2);
+             case "bnz":
+                 register = scanInt();
+                 String jumpLabel = scan();
+                 return new BnzInstruction(label, register, jumpLabel);
 
+             }
 
             // You will have to write code here for the other instructions.
-        }
+
             return null;
 
     }
@@ -162,7 +188,7 @@ public class Translator {
 	// Return the first word of line as an integer. If there is
 	// any error, return the maximum int
 	private int scanInt() {
-		String word = scan();
+        String word = scan();
         if (word.length() == 0) {
             return Integer.MAX_VALUE;
 		}

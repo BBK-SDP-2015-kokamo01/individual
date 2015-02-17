@@ -34,7 +34,6 @@ public class Machine {
 		Machine machine = new Machine();
 		Translator translator = new Translator(args[0]);
         translator.readAndTranslate(machine.getLabels(), machine.getProg());
-        //System.out.println("Machine get program " + machine.getProg());
 
         System.out.println("Here is the program; it has " + machine.getProg().size() + " instructions.");
 		System.out.println(machine);
@@ -62,9 +61,9 @@ public class Machine {
         this.setProgramCounter(0);
 		setRegisters(new Registers());
 		while (this.getProgramCounter() < getProg().size()) {
-			Instruction ins = getProg().get(this.getProgramCounter());
+            Instruction ins = getProg().get(this.getProgramCounter());
 			this.setProgramCounter(this.getProgramCounter() + 1);
-			ins.execute(this);
-		}
+            ins.execute(this);
+        }
 	}
 }

@@ -20,6 +20,6 @@ public class OutInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return super.toString() + " register " + result;
+        return super.toString() + " output to register " + result;
     }
 }

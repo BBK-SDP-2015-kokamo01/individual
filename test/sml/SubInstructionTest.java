@@ -3,7 +3,7 @@ package sml;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SubtractInstructionTest {
+public class SubInstructionTest {
 
     @Before
     public void setUp() {
