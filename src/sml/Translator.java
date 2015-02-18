@@ -2,8 +2,7 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -85,119 +84,123 @@ public class Translator {
         if (line.equals(""))
             return null;
 
-        String ins = scan();
-        /**
+
         //Reflection used here to determine the class name and matching it with
         //the instruction code, according to the instruction code the appropriate
         //class will be accessed.
 
         String ins = scan();
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
-        System.out.println("ins: " +
-                "" + ins);
-        register = scanInt();
-        s1 = scanInt();
-        s2 = scanInt();
-        System.out.println("WHATS INSIDE: " + register + " " + s1 + " " + s2);
+
         try {
+            register = scanInt();
+            s1 = scanInt();
+            s2 = scanInt();
             Class<?> c = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
-            Constructor[] allConstructors = c.getDeclaredConstructors();
-            for (Constructor a : allConstructors) {
+            System.out.println(c.getCanonicalName());
+            return (Instruction)c.getDeclaredConstructor(String.class, int.class, int.class).newInstance(label, register, s1);
+            
+
+           /* for (Type i : tv) {
+                System.out.println(i);
+            }*/
+
+         /*   for (Constructor a : allConstructors) {
                 Class<?>[] pType = a.getParameterTypes();
-
-                if (pType.length == 4){
-                    return(Instruction)a.newInstance(label, register, s1, s2);
+                System.out.println(a);
+                if (pType.length == 4) {
+                    return (Instruction) a.newInstance(label, register, s1, s2);
+                } else if (pType.length == 3) {
+                    System.out.println("lable " + label);
+                    Instruction instruction = (Instruction) a.newInstance(label, register, s1);
+                    return instruction;
                 }
-                else if (pType.length == 3) {
-                    return (Instruction) a.newInstance(label, s1, s2);
-                }
-            }
+            }*/
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            */
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
+        /**
+         String ins = scan();
 
-        switch (ins) {
-             case "add":
-                 register = scanInt();
-                 s1 = scanInt();
-                 s2 = scanInt();
-                 return new AddInstruction(label, register, s1, s2);
-             case "lin":
-                register = scanInt();
-                s1 = scanInt();
-                return new LinInstruction(label, register, s1);
-             case "out":
-                register = scanInt();
-                return new OutInstruction(label, register);
-             case "mul":
-                register = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new MulInstruction(label, register, s1, s2);
-             case "sub":
-                register = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new SubInstruction(label, register, s1, s2);
-             case "div":
-                register = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new DivInstruction(label, register, s1, s2);
-             case "bnz":
-                 register = scanInt();
-                 String jumpLabel = scan();
-                 return new BnzInstruction(label, register, jumpLabel);
-             }
+         switch (ins) {
+         case "add":
+         register = scanInt();
+         s1 = scanInt();
+         s2 = scanInt();
+         return new AddInstruction(label, register, s1, s2);
+         case "lin":
+         register = scanInt();
+         s1 = scanInt();
+         return new LinInstruction(label, register, s1);
+         case "out":
+         register = scanInt();
+         return new OutInstruction(label, register);
+         case "mul":
+         register = scanInt();
+         s1 = scanInt();
+         s2 = scanInt();
+         return new MulInstruction(label, register, s1, s2);
+         case "sub":
+         register = scanInt();
+         s1 = scanInt();
+         s2 = scanInt();
+         return new SubInstruction(label, register, s1, s2);
+         case "div":
+         register = scanInt();
+         s1 = scanInt();
+         s2 = scanInt();
+         return new DivInstruction(label, register, s1, s2);
+         case "bnz":
+         register = scanInt();
+         String jumpLabel = scan();
+         return new BnzInstruction(label, register, jumpLabel);
+         }
 
-            // You will have to write code here for the other instructions.
+         // You will have to write code here for the other instructions.
+         return null;
+         */
 
-            return null;
-
+        return null;
     }
-	/*
-	 * Return the first word of line and remove it from line. If there is no
-	 * word, return ""
-	 */
-	private String scan() {
-		line = line.trim();
+
+    private String scan() {
+        line = line.trim();
 
         if (line.length() == 0)
-			return "";
+            return "";
         int i = 0;
-		while (i < line.length() && line.charAt(i) != ' ' && line.charAt(i) != '\t') {
-			i = i + 1;
-		}
+        while (i < line.length() && line.charAt(i) != ' ' && line.charAt(i) != '\t') {
+            i = i + 1;
+        }
 
         String word = line.substring(0, i);
-		line = line.substring(i);
-        /*
-        the first character of line is being stripped of from line
-         */
-        return word;
-	}
+        line = line.substring(i);
 
-	// Return the first word of line as an integer. If there is
-	// any error, return the maximum int
-	private int scanInt() {
+        return word;
+    }
+
+    // Return the first word of line as an integer. If there is
+    // any error, return the maximum int
+    private int scanInt() {
         String word = scan();
         if (word.length() == 0) {
             return Integer.MAX_VALUE;
-		}
+        }
 
-		try {
-			return Integer.parseInt(word);
-		} catch (NumberFormatException e) {
-			return Integer.MAX_VALUE;
-		}
-	}
+        try {
+            return Integer.parseInt(word);
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
+    }
 }
