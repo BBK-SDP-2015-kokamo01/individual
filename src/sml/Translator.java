@@ -2,7 +2,9 @@ package sml;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -68,6 +70,8 @@ public class Translator {
         } catch (IOException ioE) {
             System.out.println("File: IO error " + ioE.getMessage());
             return false;
+        } catch (ClassNotFoundException e) { //might need to be removed!!!!
+            e.printStackTrace();
         }
         return true;
     }
@@ -75,7 +79,7 @@ public class Translator {
     // line should consist of an MML instruction, with its label already
     // removed. Translate line into an instruction with label label
     // and return the instruction
-    public Instruction getInstruction(String label) {
+    public Instruction getInstruction(String label) throws ClassNotFoundException {
         int s1; // Possible operands of the instruction
         int s2;
         int register;
@@ -84,52 +88,48 @@ public class Translator {
         if (line.equals(""))
             return null;
 
+        ArrayList<Object> list = new ArrayList<>();
 
-        //Reflection used here to determine the class name and matching it with
-        //the instruction code, according to the instruction code the appropriate
-        //class will be accessed.
-
+        //Instruction code formatted
         String ins = scan();
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
 
-        try {
-            register = scanInt();
-            s1 = scanInt();
-            s2 = scanInt();
-            Class<?> c = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
-            System.out.println(c.getCanonicalName());
-            return (Instruction)c.getDeclaredConstructor(String.class, int.class, int.class).newInstance(label, register, s1);
-            
+        //Reflection used to determine the class name and matching it with 
+        //the instruction code, according to the instruction code the appropriate 
+        //class will be accessed.
+        Class<?> instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
 
-           /* for (Type i : tv) {
-                System.out.println(i);
-            }*/
+        //Constructors returned
+        Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
+        Constructor constructor = allConstructors[1];
 
-         /*   for (Constructor a : allConstructors) {
-                Class<?>[] pType = a.getParameterTypes();
-                System.out.println(a);
-                if (pType.length == 4) {
-                    return (Instruction) a.newInstance(label, register, s1, s2);
-                } else if (pType.length == 3) {
-                    System.out.println("lable " + label);
-                    Instruction instruction = (Instruction) a.newInstance(label, register, s1);
-                    return instruction;
-                }
-            }*/
+        Type[] parameters = constructor.getGenericParameterTypes();
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        list.add(label);
+
+        for (int y = 1; y < parameters.length; y++) {
+            if (parameters[y] == int.class) {
+                list.add(scanInt());
+            } else {
+                list.add(scan());
+            }
         }
 
+        //Instructions returned
+        try {
+            if (list.size() == 3) {
+                return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2));
+            } else if (list.size() == 4) {
+                return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2), list.get(3));
+            }
+        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
         /**
+         //To run the code without using reflection please comment out:
          String ins = scan();
 
          switch (ins) {
@@ -170,8 +170,8 @@ public class Translator {
          return null;
          */
 
-        return null;
     }
+
 
     private String scan() {
         line = line.trim();

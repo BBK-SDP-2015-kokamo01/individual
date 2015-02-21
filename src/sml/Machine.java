@@ -1,5 +1,7 @@
 package sml;
 
+
+
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class Machine {
 		Machine machine = new Machine();
 		Translator translator = new Translator(args[0]);
         translator.readAndTranslate(machine.getLabels(), machine.getProg());
+        System.out.println(machine.getLabels());
+        System.out.printf(String.valueOf(machine.getProg()));
 
         System.out.println("Here is the program; it has " + machine.getProg().size() + " instructions.");
 		System.out.println(machine);
