@@ -70,8 +70,6 @@ public class Translator {
         } catch (IOException ioE) {
             System.out.println("File: IO error " + ioE.getMessage());
             return false;
-        } catch (ClassNotFoundException e) { //might need to be removed!!!!
-            e.printStackTrace();
         }
         return true;
     }
@@ -79,7 +77,7 @@ public class Translator {
     // line should consist of an MML instruction, with its label already
     // removed. Translate line into an instruction with label label
     // and return the instruction
-    public Instruction getInstruction(String label) throws ClassNotFoundException {
+    public Instruction getInstruction(String label) {
         int s1; // Possible operands of the instruction
         int s2;
         int register;
@@ -91,7 +89,13 @@ public class Translator {
         String ins = scan();
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
 
-        Class<?> instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
+        Class<?> instruction = null;
+
+        try {
+            instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
         Constructor constructor = allConstructors[1];
@@ -107,6 +111,14 @@ public class Translator {
         }
 
         try {
+            return (Instruction) constructor.newInstance(list.toArray());
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+        /**
+        try {
             if (list.size() == 3) {
                 return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2));
             } else if (list.size() == 4) {
@@ -116,7 +128,7 @@ public class Translator {
             e.printStackTrace();
         }
         return null;
-
+        */
 
         /**
          //To run the code without using reflection please comment out:

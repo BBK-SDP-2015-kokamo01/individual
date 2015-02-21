@@ -21,6 +21,8 @@ public class SubInstruction extends Instruction {
     public void execute(Machine machine) {
         int value1 = machine.getRegisters().getRegister(op1);
         int value2 = machine.getRegisters().getRegister(op2);
+        //System.out.println(value1 +" "+ value2 + " " + result );
+        //System.out.println(machine.getRegisters());
         machine.getRegisters().setRegister(result, value1 - value2);
     }
 
