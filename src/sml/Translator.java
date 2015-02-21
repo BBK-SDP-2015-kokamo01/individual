@@ -78,10 +78,6 @@ public class Translator {
     // removed. Translate line into an instruction with label label
     // and return the instruction
     public Instruction getInstruction(String label) {
-        int s1; // Possible operands of the instruction
-        int s2;
-        int register;
-        int x;
 
         if (line.equals(""))
             return null;
@@ -89,46 +85,28 @@ public class Translator {
         String ins = scan();
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
 
-        Class<?> instruction = null;
-
         try {
-            instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+            Class<?> instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
 
-        Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
-        Constructor constructor = allConstructors[1];
+            Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
+            Constructor constructor = allConstructors[1];
 
-        Type[] parameters = constructor.getGenericParameterTypes();
+            Type[] parameters = constructor.getGenericParameterTypes();
 
-        ArrayList<Object> list = new ArrayList<>();
-        list.add(label);
+            ArrayList<Object> list = new ArrayList<>();
+            list.add(label);
 
-        for (int y = 1; y < parameters.length; y++) {
-            if (parameters[y] == int.class) list.add(scanInt());
-            else list.add(scan());
-        }
-
-        try {
-            return (Instruction) constructor.newInstance(list.toArray());
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-        /**
-        try {
-            if (list.size() == 3) {
-                return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2));
-            } else if (list.size() == 4) {
-                return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2), list.get(3));
+            for (int y = 1; y < parameters.length; y++) {
+                if (parameters[y] == int.class) list.add(scanInt());
+                else list.add(scan());
             }
-        } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+
+            return (Instruction) constructor.newInstance(list.toArray());
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
-        */
 
         /**
          //To run the code without using reflection please comment out:
