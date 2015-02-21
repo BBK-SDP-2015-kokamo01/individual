@@ -88,34 +88,24 @@ public class Translator {
         if (line.equals(""))
             return null;
 
-        ArrayList<Object> list = new ArrayList<>();
-
-        //Instruction code formatted
         String ins = scan();
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
 
-        //Reflection used to determine the class name and matching it with 
-        //the instruction code, according to the instruction code the appropriate 
-        //class will be accessed.
         Class<?> instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
 
-        //Constructors returned
         Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
         Constructor constructor = allConstructors[1];
 
         Type[] parameters = constructor.getGenericParameterTypes();
 
+        ArrayList<Object> list = new ArrayList<>();
         list.add(label);
 
         for (int y = 1; y < parameters.length; y++) {
-            if (parameters[y] == int.class) {
-                list.add(scanInt());
-            } else {
-                list.add(scan());
-            }
+            if (parameters[y] == int.class) list.add(scanInt());
+            else list.add(scan());
         }
 
-        //Instructions returned
         try {
             if (list.size() == 3) {
                 return (Instruction) constructor.newInstance(list.get(0), list.get(1), list.get(2));
