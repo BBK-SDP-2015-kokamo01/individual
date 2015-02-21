@@ -11,7 +11,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
+
 public class SubInstructionTest {
+    /**
     private Machine machine;
     private Registers registers;
     private Translator translator;
@@ -42,4 +44,5 @@ public class SubInstructionTest {
 
         System.out.println(machine.getRegisters());
     }
+    */
 }
