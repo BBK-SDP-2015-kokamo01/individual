@@ -25,7 +25,7 @@ public class Registers {
 	public Registers() {
 		for (int i = 0; i != registers.length; i++) {
 			registers[i] = 0;
-		}
+        }
 	}
 
 	// Set register i to value.

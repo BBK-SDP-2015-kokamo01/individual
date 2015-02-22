@@ -67,7 +67,6 @@ public class Machine {
 		while (this.getProgramCounter() < getProg().size()) {
             Instruction ins = getProg().get(this.getProgramCounter());
 			this.setProgramCounter(this.getProgramCounter() + 1);
-            System.out.println("Executig " +ins);
             ins.execute(this);
         }
 	}

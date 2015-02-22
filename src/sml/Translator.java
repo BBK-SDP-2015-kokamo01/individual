@@ -1,6 +1,7 @@
 package sml;
 
 import sml.exceptions.DuplicateLabelException;
+import sml.exceptions.RegisterOverflowException;
 
 import java.io.File;
 import java.io.IOException;
@@ -186,6 +187,7 @@ public class Translator {
     // any error, return the maximum int
     private int scanInt() {
         String word = scan();
+
         if (word.length() == 0) {
             return Integer.MAX_VALUE;
         }
