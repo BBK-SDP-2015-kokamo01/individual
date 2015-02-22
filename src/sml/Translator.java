@@ -1,7 +1,6 @@
 package sml;
 
 import sml.exceptions.DuplicateLabelException;
-import sml.exceptions.RegisterOverflowException;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +125,8 @@ public class Translator {
         return null;
 
         /**
-         //To run the code without using reflection please comment out:
+         ***To run the code without using reflection please uncomment:***
+
          String ins = scan();
 
          switch (ins) {
