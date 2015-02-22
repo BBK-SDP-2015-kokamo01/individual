@@ -2,30 +2,30 @@ package sml;
 
 /**
  * This class is the superclass of the classes for machine instructions
- * 
+ *
  * @author someone
  */
 
 
 public abstract class Instruction {
-	protected String label;
-	protected String opcode;
+    protected String label;
+    protected String opcode;
 
-	// Constructor: an instruction with label l and opcode op
-	// (op must be an operation of the language)
+    // Constructor: an instruction with label l and opcode op
+    // (op must be an operation of the language)
 
-	public Instruction(String label, String opcode) {
-		this.label = label;
-		this.opcode = opcode;
-	}
+    public Instruction(String label, String opcode) {
+        this.label = label;
+        this.opcode = opcode;
+    }
 
-	// = the representation "label: opcode" of this Instruction
+    // = the representation "label: opcode" of this Instruction
 
-	@Override
-	public String toString() {
-		return label + ": " + opcode;
-	}
+    @Override
+    public String toString() {
+        return label + ": " + opcode;
+    }
 
-	// Execute this instruction on machine m.
-	public abstract void execute(Machine machine);
+    // Execute this instruction on machine m.
+    public abstract void execute(Machine machine);
 }
