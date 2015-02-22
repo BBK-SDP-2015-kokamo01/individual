@@ -25,6 +25,6 @@ public class DivInstruction extends Instruction {
 
     @Override
     public String toString() {
-        return super.toString() + " register " + op1 + " / " + " register " + op2 + " output to register " + result;
+        return super.toString() + " " + op1 + " / " + op2 + " output to register " + result;
     }
 }
