@@ -11,7 +11,7 @@ public class AddInstructionTest {
 
     private Machine machine;
     private Registers registers;
-    private Instruction subInstruction;
+    private Instruction addInstruction;
     private String label;
     private int register1;
     private int register2;
@@ -27,7 +27,7 @@ public class AddInstructionTest {
         register2 = 21;
         resultRegister = 20;
 
-        subInstruction = new AddInstruction(label, resultRegister, register1, register2);
+        addInstruction = new AddInstruction(label, resultRegister, register1, register2);
     }
 
     @Test
@@ -40,13 +40,13 @@ public class AddInstructionTest {
         when(registers.getRegister(register1)).thenReturn(val1);
         when(registers.getRegister(register2)).thenReturn(val2);
 
-        subInstruction.execute(machine);
+        addInstruction.execute(machine);
         verify(registers).setRegister(resultRegister, expected);
     }
 
     @Test
     public void shouldBeAbleToGetToString() {
         String expected = "f0: add" + " " + register1 + " + " + register2 + " output to register " + resultRegister;
-        assertEquals(expected, subInstruction.toString());
+        assertEquals(expected, addInstruction.toString());
     }
 }

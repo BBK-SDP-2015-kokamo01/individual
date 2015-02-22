@@ -7,11 +7,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 
-public class SubInstructionTest {
+public class MulInstructionTest {
 
     private Machine machine;
     private Registers registers;
-    private Instruction subInstruction;
+    private Instruction mulInstruction;
     private String label;
     private int register1;
     private int register2;
@@ -27,28 +27,26 @@ public class SubInstructionTest {
         register2 = 21;
         resultRegister = 20;
 
-        subInstruction = new SubInstruction(label, resultRegister, register1, register2);
+        mulInstruction = new MulInstruction(label, resultRegister, register1, register2);
     }
 
     @Test
     public void shouldBeAbleToExecuteSubtractInstruction() {
-        int val1 = 6;
-        int val2 = 1;
-        int expected = val1 - val2;
+        int val1 = 7;
+        int val2 = 2;
+        int expected = val1 * val2;
 
         when(machine.getRegisters()).thenReturn(registers);
         when(registers.getRegister(register1)).thenReturn(val1);
         when(registers.getRegister(register2)).thenReturn(val2);
 
-        subInstruction.execute(machine);
+        mulInstruction.execute(machine);
         verify(registers).setRegister(resultRegister, expected);
     }
 
     @Test
     public void shouldBeAbleToGetToString() {
-        String expected = "f0: sub " + register1 + " - " + register2 + " output to register " + resultRegister;
-        String actual = subInstruction.toString();
-
-        assertEquals(expected, actual);
+        String expected =  "f0: mul" + " " + register1 + " * " + register2 + " output to register " + resultRegister;
+        assertEquals(expected, mulInstruction.toString());
     }
 }

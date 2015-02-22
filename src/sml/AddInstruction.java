@@ -34,7 +34,4 @@ public class AddInstruction extends Instruction {
     public String toString() {
         return super.toString() + " " + op1 + " + " + op2 + " output to register " + result;
     }
-
-    public static class RegisterOverflowException extends Throwable {
-    }
 }
