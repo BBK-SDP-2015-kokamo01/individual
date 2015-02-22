@@ -125,7 +125,7 @@ public class Translator {
         return null;
 
         /**
-         ***To run the code without using reflection please uncomment:***
+                 ***To run the code without using reflection please uncomment:***
 
          String ins = scan();
 
