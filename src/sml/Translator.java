@@ -1,5 +1,7 @@
 package sml;
 
+import sml.exceptions.DuplicateLabelException;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -52,6 +54,11 @@ public class Translator {
                 // Store the label in label
                 String label = scan();
 
+                int idx = labels.indexOf(label);
+                if (idx != -1) {
+                    throw new DuplicateLabelException();
+                }
+
                 if (label.length() > 0) {
                     Instruction ins = getInstruction(label);
 
@@ -70,6 +77,9 @@ public class Translator {
         } catch (IOException ioE) {
             System.out.println("File: IO error " + ioE.getMessage());
             return false;
+        } catch (DuplicateLabelException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return true;
     }
