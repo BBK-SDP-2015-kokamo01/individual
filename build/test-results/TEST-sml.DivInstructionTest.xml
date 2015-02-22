@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sml.DivInstructionTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2015-02-22T12:58:10" hostname="Keimis-Air.lan" time="0.217">
-  <properties/>
-  <testcase name="shouldBeAbleToGetToString" classname="sml.DivInstructionTest" time="0.172"/>
-  <testcase name="shouldBeAbleToExecuteSubtractInstruction" classname="sml.DivInstructionTest" time="0.044"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
