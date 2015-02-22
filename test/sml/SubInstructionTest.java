@@ -11,28 +11,30 @@ public class SubInstructionTest {
 
     private Machine machine;
     private Registers registers;
-    private Labels labels;
+    private Instruction subInstruction;
+    private String label;
+    private int register1;
+    private int register2;
+    private int resultRegister;
 
     @Before
     public void setUp() {
         machine = mock(Machine.class);
         registers = mock(Registers.class);
-        labels = mock(Labels.class);
 
+        label = "f0";
+        register1 = 20;
+        register2 = 21;
+        resultRegister = 20;
 
+        subInstruction = new SubInstruction(label, resultRegister, register1, register2);
     }
 
     @Test
     public void shouldBeAbleToExecuteSubtractInstruction() {
-
-        int register1 = 20;
-        int register2 = 21;
-        int resultRegister = 20;
         int val1 = 6;
-        int val2 =1;
+        int val2 = 1;
         int expected = val1 - val2;
-
-        Instruction subInstruction = new SubInstruction("f0", resultRegister, register1, register2);
 
         when(machine.getRegisters()).thenReturn(registers);
         when(registers.getRegister(register1)).thenReturn(val1);
@@ -41,17 +43,10 @@ public class SubInstructionTest {
         subInstruction.execute(machine);
         verify(registers).setRegister(resultRegister, expected);
     }
+
     @Test
     public void shouldBeAbleToGetToString() {
-        int register1 = 20;
-        int register2 = 21;
-        int resultRegister = 20;
-
-        Instruction subInstruction = new SubInstruction("f0", resultRegister, register1, register2);
-
         String expected = "f0: sub" + " register " + register1 + " - " + " register " + register2 + " output to register " + resultRegister;
-
         assertEquals(expected, subInstruction.toString());
-
     }
 }
