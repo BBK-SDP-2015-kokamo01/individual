@@ -3,7 +3,7 @@ package sml;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.anyInt;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 
@@ -16,9 +16,8 @@ public class SubInstructionTest {
     @Before
     public void setUp() {
         machine = mock(Machine.class);
-
-        labels = mock(Labels.class);
         registers = mock(Registers.class);
+        labels = mock(Labels.class);
 
 
     }
@@ -33,7 +32,7 @@ public class SubInstructionTest {
         int val2 =1;
         int expected = val1 - val2;
 
-        Instruction subInstruction = new SubInstruction("sub", resultRegister, register1, register2);
+        Instruction subInstruction = new SubInstruction("f0", resultRegister, register1, register2);
 
         when(machine.getRegisters()).thenReturn(registers);
         when(registers.getRegister(register1)).thenReturn(val1);
@@ -41,5 +40,18 @@ public class SubInstructionTest {
 
         subInstruction.execute(machine);
         verify(registers).setRegister(resultRegister, expected);
+    }
+    @Test
+    public void shouldBeAbleToGetToString() {
+        int register1 = 20;
+        int register2 = 21;
+        int resultRegister = 20;
+
+        Instruction subInstruction = new SubInstruction("f0", resultRegister, register1, register2);
+
+        String expected = "f0: sub" + " register " + register1 + " - " + " register " + register2 + " output to register " + resultRegister;
+
+        assertEquals(expected, subInstruction.toString());
+
     }
 }
