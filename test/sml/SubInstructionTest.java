@@ -25,15 +25,21 @@ public class SubInstructionTest {
 
     @Test
     public void shouldBeAbleToExecuteSubtractInstruction() {
-        
-        Instruction subInstruction = new SubInstruction("sub", 20, 20, 21);
+
+        int register1 = 20;
+        int register2 = 21;
+        int resultRegister = 20;
+        int val1 = 6;
+        int val2 =1;
+        int expected = val1 - val2;
+
+        Instruction subInstruction = new SubInstruction("sub", resultRegister, register1, register2);
 
         when(machine.getRegisters()).thenReturn(registers);
-        when(registers.getRegister(20)).thenReturn(6);
-
-        when(registers.getRegister(22)).thenReturn(1);
+        when(registers.getRegister(register1)).thenReturn(val1);
+        when(registers.getRegister(register2)).thenReturn(val2);
 
         subInstruction.execute(machine);
-        verify(registers).setRegister(20, 6);
+        verify(registers).setRegister(resultRegister, expected);
     }
 }
