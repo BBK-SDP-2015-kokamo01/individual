@@ -96,7 +96,13 @@ public class Translator {
         String instructionCode = ins.substring(0, 1).toUpperCase() + ins.substring(1);
 
         try {
-            Class<?> instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
+            Class<?> instruction = null;
+
+            try {
+                instruction = Class.forName(this.getClass().getPackage().getName() + "." + instructionCode + "Instruction");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
             Constructor<?>[] allConstructors = instruction.getDeclaredConstructors();
             Constructor constructor = allConstructors[1];
@@ -113,7 +119,7 @@ public class Translator {
 
             return (Instruction) constructor.newInstance(list.toArray());
 
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return null;
@@ -155,9 +161,6 @@ public class Translator {
          String jumpLabel = scan();
          return new BnzInstruction(label, register, jumpLabel);
          }
-
-         // You will have to write code here for the other instructions.
-         return null;
          */
 
     }
